@@ -18,19 +18,19 @@ Todo:
 
 ## Documentation
 
-[Documentation on godoc.org](http://godoc.org/github.com/yanatan16/golang-instagram/instagram)
+[Documentation on godoc.org](http://godoc.org/github.com/azr/golang-instagram)
 
 ## Install
 
 ```
-go get github.com/yanatan16/golang-instagram/instagram
+go get github.com/azr/golang-instagram
 ```
 
 ## Creation
 
 ```go
 import (
-  "github.com/yanatan16/golang-instagram/instagram"
+  "github.com/azr/golang-instagram"
 )
 
 unauthenticatedApi := &instagram.Api{
@@ -46,12 +46,12 @@ anotherAuthenticatedApi := instagram.New("", "my-access-token")
 
 ## Usage
 
-See the [documentation](http://godoc.org/github.com/yanatan16/golang-instagram/instagram), [endpoint examples](https://github.com/yanatan16/golang-instagram/blob/master/instagram/example_test.go), and the [iteration tests](https://github.com/yanatan16/golang-instagram/blob/master/instagram/iterate_test.go) for a deeper dive than whats below.
+See the [documentation](http://godoc.org/github.com/azr/golang-instagram), [endpoint examples](https://github.com/azr/golang-instagram/blob/master/example_test.go), and the [iteration tests](https://github.com/azr/golang-instagram/blob/master/iterate_test.go) for a deeper dive than whats below.
 
 ```go
 import (
   "fmt"
-  "github.com/yanatan16/golang-instagram/instagram"
+  "github.com/azr/golang-instagram"
   "net/url"
 )
 
@@ -92,7 +92,7 @@ There's many more endpoints and a fancy iteration wrapper. Check it out in the c
 
 ## Iteration
 
-So pagination makes iterating through a list of users or media possible, but its not easy. So, because Go has nice iteration facilities (i.e. `range`), this package includes two useful methods for iterating over paginating: `api.IterateMedias` and `api.IterateUsers`. You can see [the tests](https://github.com/yanatan16/golang-instagram/blob/master/instagram/iterate_test.go) and [the docs](http://godoc.org/github.com/yanatan16/golang-instagram/instagram/#Api.IterateMedia) for more info.
+So pagination makes iterating through a list of users or media possible, but its not easy. So, because Go has nice iteration facilities (i.e. `range`), this package includes two useful methods for iterating over paginating: `api.IterateMedias` and `api.IterateUsers`. You can see [the tests](https://github.com/azr/golang-instagram/blob/master/iterate_test.go) and [the docs](http://godoc.org/github.com/azr/golang-instagram/#Api.IterateMedia) for more info.
 
 ```go
 // First go and make the original request, passing in any additional parameters you need
