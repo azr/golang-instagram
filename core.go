@@ -73,10 +73,12 @@ func (api *Api) get(path string, params url.Values, r interface{}) error {
 
 func (api *Api) do(req *http.Request, r interface{}) error {
 	resp, err := http.DefaultClient.Do(req)
+	if resp.Body != nil {
+		defer resp.Body.Close()
+	}
 	if err != nil {
 		return err
 	}
-	defer resp.Body.Close()
 
 	if resp.StatusCode != 200 {
 		return apiError(resp)
@@ -86,9 +88,6 @@ func (api *Api) do(req *http.Request, r interface{}) error {
 }
 
 func decodeResponse(body io.Reader, to interface{}) error {
-	// b, _ := ioutil.ReadAll(body)
-	// fmt.Println("Body:",string(b))
-	// err := json.Unmarshal(b, to)
 	err := json.NewDecoder(body).Decode(to)
 
 	if err != nil {
@@ -98,7 +97,7 @@ func decodeResponse(body io.Reader, to interface{}) error {
 }
 
 func apiError(resp *http.Response) error {
-	m := new(MetaResponse)
+	m := &MetaResponse{}
 	if err := decodeResponse(resp.Body, m); err != nil {
 		return err
 	}
