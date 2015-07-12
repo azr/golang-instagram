@@ -5,9 +5,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	// "io/ioutil"
 	"net/http"
 	"net/url"
+	"strconv"
 )
 
 var (
@@ -15,8 +15,9 @@ var (
 )
 
 type Api struct {
-	ClientId    string
-	AccessToken string
+	ClientId           string
+	AccessToken        string
+	RatelimitRemaining int
 }
 
 // Create an API with either a ClientId OR an accessToken. Only one is required. Access tokens are preferred because they keep rate limiting down.
@@ -82,6 +83,14 @@ func (api *Api) do(req *http.Request, r interface{}) error {
 
 	if resp.StatusCode != 200 {
 		return apiError(resp)
+	}
+
+	remaining, found := resp.Header["X-Ratelimit-Remaining"]
+	if found {
+		i, err := strconv.Atoi(remaining[0])
+		if err == nil {
+			api.RatelimitRemaining = i
+		}
 	}
 
 	return decodeResponse(resp.Body, r)
