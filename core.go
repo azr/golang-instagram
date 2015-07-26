@@ -74,11 +74,11 @@ func (api *Api) get(path string, params url.Values, r interface{}) error {
 
 func (api *Api) do(req *http.Request, r interface{}) error {
 	resp, err := http.DefaultClient.Do(req)
-	if resp.Body != nil {
-		defer resp.Body.Close()
-	}
 	if err != nil {
 		return err
+	}
+	if resp.Body != nil {
+		defer resp.Body.Close()
 	}
 
 	if resp.StatusCode != 200 {
