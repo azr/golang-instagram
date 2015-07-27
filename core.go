@@ -11,7 +11,9 @@ import (
 )
 
 var (
-	baseUrl = "https://api.instagram.com/v1"
+	baseUrl                = "https://api.instagram.com/v1"
+	ErrBodyAndUrlParamsSet = fmt.Errorf("Cannot merge query params in urlStr and params")
+	ErrJsonDecode          = fmt.Errorf("instagram: error decoding body")
 )
 
 type Api struct {
@@ -43,7 +45,7 @@ func buildGetRequest(urlStr string, params url.Values) (*http.Request, error) {
 	// If we are getting, then we can't merge query params
 	if params != nil {
 		if u.RawQuery != "" {
-			return nil, fmt.Errorf("Cannot merge query params in urlStr and params")
+			return nil, ErrBodyAndUrlParamsSet
 		}
 		u.RawQuery = params.Encode()
 	}
@@ -100,7 +102,7 @@ func decodeResponse(body io.Reader, to interface{}) error {
 	err := json.NewDecoder(body).Decode(to)
 
 	if err != nil {
-		return fmt.Errorf("instagram: error decoding body; %s", err.Error())
+		return ErrJsonDecode
 	}
 	return nil
 }
