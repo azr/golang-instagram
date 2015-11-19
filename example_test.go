@@ -16,7 +16,6 @@ func ExampleNew() {
 	apiAuthenticatedUser := New("", "access_token")
 	if ok, err := apiAuthenticatedUser.VerifyCredentials(); !ok {
 		panic(err)
-		return
 	}
 	fmt.Println("Successfully created instagram.Api with user credentials")
 }
